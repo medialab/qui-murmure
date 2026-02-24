@@ -29,11 +29,11 @@ db_prop <- db_prop %>% mutate(topic = ifelse(topic == 82, 0, topic)) %>%
 #Set a pol_issue temp if needed
 
 readable_variables <- c("Députés LR", 
-                        "Députés Majorité",
+                        "Députés Gouv.",
                         "Députés NUPES",
                         "Députés RN",
                         "Supporters LR",
-                        "Supporters Majorité",
+                        "Supporters Gouv.",
                         "Supporters NUPES",
                         "Supporters RN",
                         "Public Attentif",
@@ -204,11 +204,11 @@ out_db <- db_long %>%
 # - provide readble labels to the groups
 out_db$group <- recode(factor(out_db$group),
                        `lr` = "Députés LR",
-                       `majority` = "Députés Majorité",
+                       `majority` = "Députés Gouv.",
                        `nupes` = "Députés NUPES",
                        `rn` ="Députés RN",
                        `lr_supp` = "Supporters LR",
-                       `majority_supp` = "Supporters Majorité",
+                       `majority_supp` = "Supporters Gouv.",
                        `nupes_supp` =   "Supporters NUPES",
                        `rn_supp` =  "Supporters RN",
                        `attentive` = "Public Attentif",
