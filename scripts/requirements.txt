@@ -1,5 +1,5 @@
 torch>=2.1.0
-transformers==4.40.2
+transformers==4.53.0
 accelerate==0.29.3
 datasets>=2.18.0
 evaluate>=0.4.1
