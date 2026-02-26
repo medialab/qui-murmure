@@ -482,11 +482,11 @@ variables <- c('lr', 'majority', 'nupes', 'rn',
                'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp',
                'attentive', 'media')
 readable_variables <- c("Députés LR", 
-                        "Députés Gouv.",
+                        "Députés Ensemble",
                         "Députés NUPES",
                         "Députés RN",
                         "Supporters LR",
-                        "Supporters Gouv.",
+                        "Supporters Ensemble",
                         "Supporters NUPES",
                         "Supporters RN",
                         "Public Attentif",
@@ -496,11 +496,11 @@ filt_irf <- irf_data %>%
   mutate(
     cov = recode(cov,
                  `lr` = "Députés LR",
-                 `majority` = "Députés Gouv.",
+                 `majority` = "Députés Ensemble",
                  `nupes` = "Députés NUPES",
                  `rn` ="Députés RN",
                  `lr_supp` = "Supporters LR",
-                 `majority_supp` = "Supporters Gouv.",
+                 `majority_supp` = "Supporters Ensemble",
                  `nupes_supp` =   "Supporters NUPES",
                  `rn_supp` =  "Supporters RN",
                  `attentive` = "Public Attentif",
@@ -508,11 +508,11 @@ filt_irf <- irf_data %>%
     ),
     out = recode(out,
                  `lr` = "Députés LR",
-                 `majority` = "Députés Gouv.",
+                 `majority` = "Députés Ensemble",
                  `nupes` = "Députés NUPES",
                  `rn` ="Députés RN",
                  `lr_supp` = "Supporters LR",
-                 `majority_supp` = "Supporters Gouv.",
+                 `majority_supp` = "Supporters Ensemble",
                  `nupes_supp` =   "Supporters NUPES",
                  `rn_supp` =  "Supporters RN",
                  `attentive` = "Public Attentif",
@@ -602,7 +602,7 @@ p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
   scale_fill_gradient(low = "#efffff", high = "#FF0000") +
   theme_minimal(base_size = 14) +
   labs(title = "Number of topic with significative influence",
-       x = "outcome", y = "origin", fill = "Occurrences") +
+       x = "conséquence", y = "origine", fill = "Occurrences") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5))
@@ -626,7 +626,7 @@ p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = pe_sum)) +
   scale_fill_gradient(low = "#efffff", high = "#FF0000") +
   theme_minimal(base_size = 14) +
   labs(title = "Cumulative impulse by pair",
-       x = "outcome", y = "origin", fill = "Occurrences") +
+       x = "conséquence", y = "origine", fill = "Occurrences") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5))
@@ -638,11 +638,11 @@ plot_db <- irf_data  %>%
           mutate(
             cov = recode(cov,
                          `lr` = "Députés LR",
-                         `majority` = "Députés Gouv.",
+                         `majority` = "Députés Ensemble",
                          `nupes` = "Députés NUPES",
                          `rn` ="Députés RN",
                          `lr_supp` = "Supporters LR",
-                         `majority_supp` = "Supporters Gouv.",
+                         `majority_supp` = "Supporters Ensemble",
                          `nupes_supp` =   "Supporters NUPES",
                          `rn_supp` =  "Supporters RN",
                          `attentive` = "Public Attentif",
@@ -650,11 +650,11 @@ plot_db <- irf_data  %>%
             ),
             out = recode(out,
                          `lr` = "Députés LR",
-                         `majority` = "Députés Gouv.",
+                         `majority` = "Députés Ensemble",
                          `nupes` = "Députés NUPES",
                          `rn` ="Députés RN",
                          `lr_supp` = "Supporters LR",
-                         `majority_supp` = "Supporters Gouv.",
+                         `majority_supp` = "Supporters Ensemble",
                          `nupes_supp` =   "Supporters NUPES",
                          `rn_supp` =  "Supporters RN",
                          `attentive` = "Public Attentif",
@@ -674,11 +674,11 @@ plot_db <- irf_data  %>%
 
 colors_dict <- c(
   "Députés LR" = "blue",
-  "Députés Gouv." = "darkorange1",
+  "Députés Ensemble" = "darkorange1",
   "Députés NUPES" = "red",
   "Députés RN" = "gray19",
   "Supporters LR" = "cyan3",
-  "Supporters Gouv." = "gold",
+  "Supporters Ensemble" = "gold",
   "Supporters NUPES"= "orchid1",
   "Supporters RN" = "gray68",
   "Public Attentif"= "darkorchid3", 
@@ -920,11 +920,11 @@ db_long <- db %>%
           mutate(
             variable = recode(variable,
                          `lr` = "Députés LR",
-                         `majority` = "Députés Gouv.",
+                         `majority` = "Députés Ensemble",
                          `nupes` = "Députés NUPES",
                          `rn` ="Députés RN",
                          `lr_supp` = "Supporters LR",
-                         `majority_supp` = "Supporters Gouv.",
+                         `majority_supp` = "Supporters Ensemble",
                          `nupes_supp` =  "Supporters NUPES",
                          `rn_supp` =  "Supporters RN",
                          `attentive` = "Public Attentif",
