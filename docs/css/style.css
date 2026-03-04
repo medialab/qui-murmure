@@ -19,6 +19,7 @@ body {
 .tweet-fallback-container {
     margin-bottom: 16px;
     max-width: 550px;
+    padding-left: 12px;
 }
 
 .tweet-fallback {
@@ -30,6 +31,35 @@ body {
 
 .tweet-fallback:hover {
   background-color: #fafafa;
+}
+
+.tweet-fallback a {
+  color: #006fd6;
+  text-decoration: none;
+}
+
+.twitter-tweet {
+    outline: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 18px;
+    width: 550px;
+    margin: 0;
+}
+
+.tweet-container {
+    padding-left: 12px;
+}
+
+.tweet-container a {
+    color: #006fd6;
+    text-decoration: none;
+}
+
+.twitter-tweet-rendered {
+    outline: none !important;
+    color: none;
+    padding: 0;
 }
 
 #topic-select {
@@ -74,7 +104,7 @@ li {
     margin: 8px 0;
 }
 
-a {
+li a {
     text-decoration: none;
     color: #1d4ed8;
     padding: 4px 6px;
@@ -82,7 +112,7 @@ a {
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-a:hover {
+li a:hover {
     background-color: #e0e7ff;
     color: #1e3a8a;
 }

@@ -29,9 +29,15 @@
 
     {% for t in tweets if t.public == public %}
       {% if t.exists %}
-        <blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-dnt="true">
-          <a href="https://twitter.com/{{ t.user }}/status/{{ t.id }}"></a>
+    <div class="tweet-container">
+      <blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-dnt="true">
+            <strong>@{{ t.user }}</strong><br><br>
+              {{ t.text }}<br><br>
+            <a href="https://twitter.com/{{ t.user }}/status/{{ t.id }}">
+              {{ t.time }}
+            </a>
         </blockquote>
+      </div>
       {% else %}
         <div class="tweet-fallback-container">
           <div class="tweet-fallback">
