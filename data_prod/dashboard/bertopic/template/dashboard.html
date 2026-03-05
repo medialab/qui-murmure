@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+<h1><a href="/">Annexe en ligne à l'article <i>Qui murmure à l'oreille des députés</a></i></h1>
 <label for="topic-select"></label>
 <select id="topic-select">
   {% for t, title in titles.items() %}
@@ -25,7 +25,7 @@
 <div class="grid">
   {% for public in ["media", "congress"] %}
   <div>
-    <h3>{{ display_strings[public] }}</h3>
+    <h3>Tweets représentatifs des {{ display_strings[public] }}</h3>
 
     {% for t in tweets if t.public == public %}
       {% if t.exists %}
