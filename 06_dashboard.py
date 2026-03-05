@@ -67,7 +67,7 @@ titles = {
     22: "Relations diplomatiques avec l’Algérie",
     28: "Invasion Arménie par Azebaïdjan",
     29: "Sauvetage de migrants en mer",
-    36: "Elections présidentielles au Brésil",
+    36: "Election présidentielle au Brésil",
     51: "Giorgia Meloni",
     81: "Mayotte",
     23: "Propos racistes à l'Assemblée",
