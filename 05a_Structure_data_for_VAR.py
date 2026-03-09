@@ -30,5 +30,5 @@ dates = list_dates("2022-06-20", "2023-03-14")
 nb_dates = len(dates)
 
 write_general_TS('bertopic', nb_dates, 'nb_tweets', dates)
-write_general_TS('bertopic', nb_dates, 'prop', dates)
+#write_general_TS('bertopic', nb_dates, 'prop', dates)
 #write_general_TS('lda', nb_dates, 'prop', dates)
