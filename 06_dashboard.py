@@ -53,7 +53,7 @@ titles = {
     46: "Dénonciation islam radical",
     20: "Abolition de la corrida",
     16: "Défense nationale et armées",
-    75: "Service National Universel",
+    75: "Jeunesse et Service National Universel",
     17: "Sécurité intérieure",
     32: "Prison et Justice",
     83: "Incivilités routières",

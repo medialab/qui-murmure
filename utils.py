@@ -1075,3 +1075,102 @@ def write_keywords(topic, words, x, root=os.getcwd()):
         writer.writerow(["word", "x"])
         for word, score in zip(words, x):
             writer.writerow([word, score])
+
+
+def write_general_TS(model,  nb_dates, value_int, dates):
+    if model == 'lda' and value_int =="nb_tweets":
+        raise ValueError("No nb_tweets available for lda")
+    if value_int != 'prop' and value_int != 'nb_tweets':
+        raise ValueError("Please, choose an existing value measure : prop or nb_tweets")
+    if model != "lda":
+        model = 'bertopic'
+    input_path = os.path.join("data_prod", "dashboard", model, "data")
+    files_TS =list(iter_on_files(input_path, count_nb_files(input_path))[1]) 
+    
+    if model == 'lda':
+        data = np.genfromtxt(files_TS[0], delimiter=",", dtype=None, names=True, encoding="utf-8")
+        data = map_party_lda(data)
+        party_values = data['party']
+        group_types = list(dict.fromkeys(party_values))
+    else: 
+        reader = casanova.reader(files_TS[0])
+        group_types = list(dict.fromkeys(list(reader.cells('party'))))
+
+    if model == 'lda':
+        group_interest = ['attentive', 'general', 'media', 'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp']
+        selected_group = [group for group in group_types if group in group_interest]
+        first_line = "date,actor,topic,prop,party"
+        index_lrsup = selected_group.index('lr_supp')
+        index_majsup = selected_group.index('majority_supp')
+        index_nupessup = selected_group.index('nupes_supp')
+        index_rnsup = selected_group.index('rn_supp')
+        index_gen = selected_group.index('general')
+        index_attentive = selected_group.index('attentive')
+        index_media = selected_group.index('media')
+        filenamegen = "general_TS_LDA.csv"
+    else: 
+        group_interest = ['attentive', 'media', 'lr_supp']
+        selected_group = [group for group in group_types if group in group_interest]
+        index_supp = selected_group.index('lr_supp')
+        index_attentive = selected_group.index('attentive')
+        index_media = selected_group.index('media')
+        first_line = "date,party,topic,prop,nb_tweets"
+        if value_int == 'prop':
+            filenamegen = "general_TS_prop.csv"
+        else :
+            filenamegen = "general_TS.csv"
+    
+    with open(os.path.join("data_prod", "var", filenamegen), 'w') as f: 
+        fieldnames = ['date', 'topic', 'lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp', 'attentive', 'media']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for file in files_TS:
+            with open(file, 'r') as file_reader:
+                    reader = csv.DictReader(file_reader)
+
+                    rows = list(reader)
+                    iter_dates=0
+
+                    for row in rows:
+                        if iter_dates==nb_dates:
+                            break 
+                        if row == first_line:
+                            continue
+                        ind_dep = iter_dates*4 
+                        if model == 'lda':
+                            ind_lrs = (4 + index_lrsup) * nb_dates + iter_dates
+                            ind_majs = (4 + index_majsup) * nb_dates + iter_dates
+                            ind_nupess = (4 + index_nupessup) * nb_dates + iter_dates
+                            ind_rns = (4 + index_rnsup) * nb_dates + iter_dates
+                            index_att = (4 + index_attentive) * nb_dates + iter_dates
+                            index_med = (4 + index_media) * nb_dates + iter_dates
+
+                        else: 
+                            ind_lrs = (4 + index_supp) * nb_dates + iter_dates*4
+                            ind_majs = ind_lrs +1 
+                            ind_nupess = ind_lrs +2
+                            ind_rns = ind_lrs +3
+                            if index_media < index_supp:
+                                index_med = (4 + index_media) * nb_dates + iter_dates
+                            else:
+                                index_med = (8 + index_media  -1) * nb_dates + iter_dates
+                            if index_attentive < index_supp:
+                                index_att = (4 + index_attentive) * nb_dates + iter_dates
+                            else:
+                                index_att = (8 + index_attentive -1) * nb_dates + iter_dates
+
+                        writer.writerow({
+                                'date': dates[iter_dates],  
+                                'topic': row['topic'],
+                                'lr': rows[ind_dep][value_int],
+                                'majority': rows[ind_dep + 1][value_int],
+                                'nupes': rows[ind_dep + 2][value_int],
+                                'rn': rows[ind_dep + 3][value_int],
+                                'lr_supp': rows[ind_lrs][value_int],
+                                'majority_supp': rows[ind_majs][value_int],
+                                'nupes_supp': rows[ind_nupess][value_int],
+                                'rn_supp': rows[ind_rns][value_int],
+                                'attentive': rows[index_att][value_int],
+                                'media': rows[index_med][value_int],
+                            })
+                        iter_dates += 1
