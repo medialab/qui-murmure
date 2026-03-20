@@ -12,10 +12,9 @@ import torch
 import csv
 import sys
 
-save_folder = sys.argv[1]
 accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
-
+tokenizer = AutoTokenizer.from_pretrained("almanach/camembertav2-base")
 
 def preprocess_tweet(tweet):
     for url in urls_from_text(tweet):
@@ -143,6 +142,8 @@ def train_model(datasets, tokenizer, label_to_id, output_dir):
 
 
 if __name__=="__main__":
+    save_folder = sys.argv[1]
+
     paths = {
         "train": {"path": "../data/public_attentif_train_set.csv"},
         "val": {"path": "../data/public_attentif_val_set.csv"}
@@ -163,8 +164,6 @@ if __name__=="__main__":
 
     datasets = load_datasets(paths, remaping, lambda x: True)
 
-    tokenizer = AutoTokenizer.from_pretrained("almanach/camembertav2-base")
-
     train_model(datasets, tokenizer, label_to_id, os.path.join(save_folder, "anonymes"))
 
     label_to_id = {
@@ -179,4 +178,4 @@ if __name__=="__main__":
 
     datasets = load_datasets(paths, remaping, filtered)
 
-    train_model(datasets, tokenizer, label_to_id,label_to_id, os.path.join(save_folder, "actu"))
+    train_model(datasets, tokenizer, label_to_id, os.path.join(save_folder, "actu"))
