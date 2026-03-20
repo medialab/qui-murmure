@@ -10,7 +10,9 @@ from ural.instagram import is_instagram_url
 import os
 import torch
 import csv
+import sys
 
+save_folder = sys.argv[1]
 accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
 
@@ -163,7 +165,7 @@ if __name__=="__main__":
 
     tokenizer = AutoTokenizer.from_pretrained("almanach/camembertav2-base")
 
-    train_model(datasets, tokenizer, label_to_id, "~/storage/medialex/enquete-attentif/anonymes/")
+    train_model(datasets, tokenizer, label_to_id, os.path.join(save_folder, "anonymes"))
 
     label_to_id = {
         "Commentateur·ice d'actualité": 0,
@@ -177,4 +179,4 @@ if __name__=="__main__":
 
     datasets = load_datasets(paths, remaping, filtered)
 
-    train_model(datasets, tokenizer, label_to_id, "~/storage/medialex/enquete-attentif/actu/")
+    train_model(datasets, tokenizer, label_to_id,label_to_id, os.path.join(save_folder, "actu"))
