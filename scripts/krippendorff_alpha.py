@@ -186,7 +186,7 @@ print(deduplicated.replace(id_to_label).value_counts("Catégorie"))
 print(deduplicated.replace(id_to_label).value_counts("Catégorie", normalize=True))
 
 X_train, X_test, _, _ = train_test_split(
-    deduplicated, deduplicated["Catégorie"], test_size=180, random_state=RANDOM_SEED
+    deduplicated, deduplicated["Catégorie"], test_size=0.25, random_state=RANDOM_SEED
 )
 
 # =========================
