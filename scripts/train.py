@@ -104,8 +104,8 @@ def train_model(datasets, tokenizer, label_to_id, output_dir):
     model = AutoModelForSequenceClassification.from_pretrained(
         "almanach/camembertav2-base",
         num_labels=2,
-        id2label=label_to_id,
-        label2id=id_to_label,
+        id2label=id_to_label,
+        label2id=label_to_id,
     )
 
     for name, param in model.deberta.named_parameters():
