@@ -520,6 +520,8 @@ filt_irf <- irf_data %>%
     )
   )
 
+print(head(filt_irf), 10)
+
 #Plots : number leader, follower
 
 #Matrix lead follow
@@ -537,14 +539,39 @@ p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
   geom_text(aes(label = n), color = "black", size = 3) + 
   scale_fill_gradient(low = "#efffff", high = "#FF0000") +
   theme_minimal(base_size = 14) +
-  labs(title = "Number of topic with significative influence",
-       x = "conséquence", y = "origine", fill = "Occurrences") +
+  labs(title = "",
+       x = "Destination", y = "Origine", fill = "Occurrences") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5))
   print(p)
   dev.off()
 
+#Partial matrix 
 
+partial_variables <- c("Députés LR","Députés Ensemble","Députés NUPES","Députés RN","Supporters LR","Supporters Ensemble","Supporters NUPES","Supporters RN")
 
+partial_matrix_LF <- filt_irf %>%
+          filter(cov %in% partial_variables) %>%
+          filter(out %in% partial_variables) %>%
+          count(cov, out) %>%
+          complete(cov = partial_variables, out = partial_variables, fill = list(n = 0))  %>%
+          mutate(
+            cov = factor(cov, levels = partial_variables),
+            out = factor(out, levels = partial_variables)
+          )
+
+png("data_prod/var/irf-analysis/number_leading_relations_pairs_partial.png",width = 800, height = 600)
+p <- ggplot(partial_matrix_LF, aes(x = out, y = cov, fill = n)) +
+  geom_tile(color = "white", linewidth = 0.3) +
+  geom_text(aes(label = n), color = "black", size = 3) + 
+  scale_fill_gradient(low = "#efffff", high = "#FF0000") +
+  theme_minimal(base_size = 14) +
+  labs(title = "",
+       x = "Destination", y = "Origine", fill = "Occurrences") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid = element_blank(),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+  print(p)
+  dev.off()
 
