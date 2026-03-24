@@ -16,6 +16,7 @@ accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
 tokenizer = AutoTokenizer.from_pretrained("almanach/camembertav2-base")
 
+
 def preprocess_tweet(tweet):
     for url in urls_from_text(tweet):
         if is_twitter_url(url) or is_instagram_url(url) or is_youtube_url(url):
@@ -71,6 +72,7 @@ def compute_metrics(eval_pred):
         )["f1"],
     }
 
+
 class TorchDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length=1024):
         self.texts = texts
@@ -87,7 +89,7 @@ class TorchDataset(Dataset):
             truncation=True,
             padding="max_length",
             max_length=self.max_length,
-            return_tensors="pt"
+            return_tensors="pt",
         )
 
         item = {key: val.squeeze(0) for key, val in encoding.items()}
@@ -96,11 +98,14 @@ class TorchDataset(Dataset):
 
 
 def train_model(datasets, tokenizer, label_to_id, output_dir):
-
     id_to_label = {i: l for l, i in label_to_id.items()}
 
-    train_set = TorchDataset(datasets["train"]["texts"], datasets["train"]["labels"], tokenizer)
-    val_set = TorchDataset(datasets["val"]["texts"], datasets["val"]["labels"], tokenizer)
+    train_set = TorchDataset(
+        datasets["train"]["texts"], datasets["train"]["labels"], tokenizer
+    )
+    val_set = TorchDataset(
+        datasets["val"]["texts"], datasets["val"]["labels"], tokenizer
+    )
 
     model = AutoModelForSequenceClassification.from_pretrained(
         "almanach/camembertav2-base",
@@ -110,11 +115,14 @@ def train_model(datasets, tokenizer, label_to_id, output_dir):
     )
 
     for name, param in model.deberta.named_parameters():
-        if "encoder.layer.9" in name or "encoder.layer.10" in name or "encoder.layer.11" in name:
+        if (
+            "encoder.layer.9" in name
+            or "encoder.layer.10" in name
+            or "encoder.layer.11" in name
+        ):
             param.requires_grad = True
         else:
             param.requires_grad = False
-
 
     training_args = TrainingArguments(
         output_dir=output_dir,
@@ -141,12 +149,12 @@ def train_model(datasets, tokenizer, label_to_id, output_dir):
     print(metrics)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     save_folder = sys.argv[1]
 
     paths = {
         "train": {"path": "../data/public_attentif_train_set.csv"},
-        "val": {"path": "../data/public_attentif_val_set.csv"}
+        "val": {"path": "../data/public_attentif_val_set.csv"},
     }
 
     # label_to_id = {
