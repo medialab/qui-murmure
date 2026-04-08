@@ -115,8 +115,8 @@ python -m http.server -d docs
 The website will then be visible in your browser on [http://127.0.0.1:8000/]()
 
 ------
-Optional steps (running topic modelling using LDA):
-## Create document-term matrix for a given public
+## Optional steps (running topic modelling using LDA):
+### Create document-term matrix for a given public
 
 See the examples below.
 
