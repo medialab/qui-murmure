@@ -113,7 +113,7 @@ merge = {82: 0, 50: 5, 60: 40}
 for topic, parent in merge.items():
     df["topic"] = df["topic"].replace(topic, parent)
 
-display_strings = {"media": "médias", "congress": "députés"}
+display_strings = {"media": "médias", "congress": "député·es"}
 
 
 def tweet_exists(username, tweet_id):
@@ -150,10 +150,10 @@ for topic in all_topics:
             "attentive",
         ],
         [
-            "députés LR",
-            "députés RN",
-            "députés Ensemble",
-            "députés NUPES",
+            "député·es LR",
+            "député·es RN",
+            "député·es Ensemble",
+            "député·es NUPES",
             "supporters LR",
             "supporters RN",
             "supporters Ensemble",
@@ -192,15 +192,15 @@ for topic in all_topics:
                 "party:N",
                 sort=[
                     "médias",
-                    "députés Ensemble",
-                    "députés NUPES",
-                    "députés RN",
-                    "députés LR",
+                    "député·es Ensemble",
+                    "député·es NUPES",
+                    "député·es RN",
+                    "député·es LR",
                     "supporters Ensemble",
                     "supporters NUPES",
                     "supporters RN",
                     "supporters LR",
-                    "attentive",
+                    "public attentif",
                 ],
             ).legend(alt.Legend(title="Public")),
             opacity=alt.when(selection).then(alt.value(1)).otherwise(alt.value(0.01)),

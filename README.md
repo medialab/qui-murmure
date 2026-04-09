@@ -1,7 +1,7 @@
-# Qui murmure à l'oreille des députés
+# Qui murmure à l'oreille des député·es
 
-Scripts developped for the paper "Qui murmure à l'oreille des députés" (currently under review).
-This script is designed to be run on a GPU graphical card with 20G of RAM.
+Scripts developped for the paper "Qui murmure à l'oreille des député·es" (currently under review).
+Most scripts are designed to be run on a GPU graphical card with 20G of RAM.
 You may not be able to reproduce some of the steps below (in particular the installation of [cuML](https://docs.rapids.ai/api/cuml/stable/)) on a CPU.
 
 ## Installation
