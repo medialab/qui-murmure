@@ -30,6 +30,8 @@ parser$add_argument("--number_irf", help="Choose a int who will represent the nu
 
 args <- parser$parse_args()
 
+set.seed(1)
+
 variables <- c('lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp', 'attentive', 'media')
 
 if (args$estimate || args$tests || args$tests_post){
