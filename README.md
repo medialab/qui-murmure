@@ -92,9 +92,8 @@ Example to run the script for congress and media:
 ```bash
 python 03_run_bertopic.py --origin_path /distant_store/reproduction_wlwf/ --public congress,media
 ```
-With model_path as a directory where you want to find or export your trained BERTopic model.
 --origin_path has the same function as in 01_encode_with_sbert.py script. Be careful to keep the same origin-path between the two scripts.
---group allows choosing the group(s) you want to use to run the model (by default, all groups are included). You can choose one of the following groups : congress, attentive, media, supporter. You can write several groups by separated by a comma (for example: python 02_run_bertopic.py model_path congress,media). Be careful to include congress if you haven't used the script before (otherwise, you won't have a trained model).
+--public allows choosing the group(s) you want to use to run the model (by default, all groups are included). You can choose one of the following publics : congress, attentive, media, supporter. You can write several groups separated by a comma.
 
 NB : If you are using Windows, use "\" instead of "/" in your paths
 
