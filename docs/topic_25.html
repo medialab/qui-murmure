@@ -629,6 +629,63 @@
   var spec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
   "config": {
+    "locale": {
+      "time": {
+        "date": "%d/%m/%Y",
+        "dateTime": "%A, le %e %B %Y, %X",
+        "days": [
+          "Dimanche",
+          "Lundi",
+          "Mardi",
+          "Mercredi",
+          "Jeudi",
+          "Vendredi",
+          "Samedi"
+        ],
+        "months": [
+          "Janvier",
+          "F\u00e9vrier",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Ao\u00fbt",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "D\u00e9cembre"
+        ],
+        "periods": [
+          "AM",
+          "PM"
+        ],
+        "shortDays": [
+          "Dim.",
+          "Lun.",
+          "Mar.",
+          "Mer.",
+          "Jeu.",
+          "Ven.",
+          "Sam."
+        ],
+        "shortMonths": [
+          "Jan.",
+          "F\u00e9v.",
+          "Mars",
+          "Avr.",
+          "Mai",
+          "Juin",
+          "Juil.",
+          "Ao\u00fbt",
+          "Sept.",
+          "Oct.",
+          "Nov.",
+          "D\u00e9c."
+        ],
+        "time": "%H:%M:%S"
+      }
+    },
     "range": {
       "category": [
         "#29b09d",
@@ -19459,57 +19516,82 @@
       "data": {
         "name": "data-4b7c15898b627177a413655884d53e73"
       },
-      "encoding": {
-        "color": {
-          "field": "party",
-          "legend": {
-            "title": "Public"
-          },
-          "sort": [
-            "m\u00e9dias",
-            "d\u00e9put\u00e9\u00b7es Ensemble",
-            "d\u00e9put\u00e9\u00b7es NUPES",
-            "d\u00e9put\u00e9\u00b7es RN",
-            "d\u00e9put\u00e9\u00b7es LR",
-            "supporters Ensemble",
-            "supporters NUPES",
-            "supporters RN",
-            "supporters LR",
-            "public attentif"
-          ],
-          "type": "nominal"
-        },
-        "opacity": {
-          "condition": [
-            {
-              "param": "param_26",
-              "value": 1
-            }
-          ],
-          "value": 0.01
-        },
-        "x": {
-          "field": "date",
-          "type": "temporal"
-        },
-        "y": {
-          "axis": {
-            "format": "%"
-          },
-          "field": "prop",
-          "title": "proportion d'attention",
-          "type": "quantitative"
-        }
-      },
       "height": 200,
-      "mark": {
-        "type": "line"
-      },
-      "name": "view_26",
-      "title": {
-        "subtitle": "Nombre de tweets du topic rapport\u00e9 au nombre de tweets \u00e9mis le m\u00eame jour par le m\u00eame public.",
-        "text": "Proportion d'attention accord\u00e9e au topic par chacun des publics au cours du temps"
-      },
+      "layer": [
+        {
+          "encoding": {
+            "color": {
+              "field": "party",
+              "legend": {
+                "title": "Public"
+              },
+              "sort": [
+                "m\u00e9dias",
+                "d\u00e9put\u00e9\u00b7es Ensemble",
+                "d\u00e9put\u00e9\u00b7es NUPES",
+                "d\u00e9put\u00e9\u00b7es RN",
+                "d\u00e9put\u00e9\u00b7es LR",
+                "supporters Ensemble",
+                "supporters NUPES",
+                "supporters RN",
+                "supporters LR",
+                "public attentif"
+              ],
+              "type": "nominal"
+            },
+            "opacity": {
+              "condition": [
+                {
+                  "param": "param_51",
+                  "value": 1
+                }
+              ],
+              "value": 0.01
+            },
+            "x": {
+              "field": "date",
+              "type": "temporal"
+            },
+            "y": {
+              "axis": {
+                "format": "%"
+              },
+              "field": "prop",
+              "title": "proportion d'attention",
+              "type": "quantitative"
+            }
+          },
+          "mark": {
+            "type": "line"
+          },
+          "name": "view_51",
+          "title": {
+            "subtitle": "Nombre de tweets du topic rapport\u00e9 au nombre de tweets \u00e9mis le m\u00eame jour par le m\u00eame public.",
+            "text": "Proportion d'attention accord\u00e9e au topic par chacun des publics au cours du temps"
+          }
+        },
+        {
+          "encoding": {
+            "opacity": {
+              "value": 0
+            },
+            "tooltip": {
+              "field": "date",
+              "format": "%e %B %Y",
+              "type": "temporal"
+            },
+            "x": {
+              "field": "date",
+              "type": "temporal"
+            }
+          },
+          "mark": {
+            "color": "gray",
+            "type": "rule"
+          },
+          "name": "view_52"
+        }
+      ],
       "width": 600
     },
     {
@@ -19585,7 +19667,7 @@
   "params": [
     {
       "bind": "legend",
-      "name": "param_26",
+      "name": "param_51",
       "select": {
         "fields": [
           "party"
@@ -19595,7 +19677,21 @@
       },
       "value": "m\u00e9dias",
       "views": [
-        "view_26"
+        "view_51"
+      ]
+    },
+    {
+      "name": "param_52",
+      "select": {
+        "fields": [
+          "date:T"
+        ],
+        "nearest": true,
+        "on": "pointerover",
+        "type": "point"
+      },
+      "views": [
+        "view_52"
       ]
     }
   ]
