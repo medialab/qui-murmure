@@ -5,7 +5,7 @@ import pandas as pd
 import altair as alt
 from jinja2 import Environment, FileSystemLoader
 
-from utils import RANDOM_SEED
+from utils import RANDOM_SEED, locale
 
 INPUT_PATH = os.path.join("data_prod", "dashboard", "bertopic")
 TEMPLATE_PATH = os.path.join(INPUT_PATH, "template")
@@ -209,6 +209,16 @@ for topic in all_topics:
         .properties(width=600, height=200)
     )
 
+    nearest = alt.selection_point(nearest=True, on="pointerover", fields=["date:T"], empty=False)
+
+    rules = alt.Chart(ts_data).mark_rule(color="gray").encode(
+        x="date:T",
+        opacity=alt.value(0),
+        tooltip=alt.Tooltip("date:T", format="%e %B %Y")
+    ).add_params(nearest).properties(width=600, height=200)
+
+    chart_with_rules = alt.layer(chart_ts, rules)
+
     words_and_counts = pd.read_csv(
         os.path.join(INPUT_PATH, "img", f"bertopic_keywords_{topic}.csv")
     )
@@ -238,7 +248,8 @@ for topic in all_topics:
     )
 
     json_chart = (
-        (chart_ts | keywords_histogram)
+        (chart_with_rules | keywords_histogram)
+        .configure(locale=locale)
         .configure_range(
             category=[
                 "#29b09d",
