@@ -140,11 +140,11 @@ for topic in all_topics:
         [
             "lr",
             "rn",
-            "ensemble",
+            "majority",
             "nupes",
             "lr_supp",
             "rn_supp",
-            "ensemble_supp",
+            "majority_supp",
             "nupes_supp",
             "media",
             "attentive",
@@ -166,12 +166,12 @@ for topic in all_topics:
     selection = alt.selection_point(
         fields=["party"], bind="legend", value="médias", toggle="true"
     )
-    # "ensemble": "#ffd16a",
+    # "majority": "#ffd16a",
     # "lr": "#0068C9",
     # "nupes": "#ff2b2b",
     # "rn": "#6d3fc0",
     # "media": "#29b09d",
-    # "ensemble_supp": "#ff8700",
+    # "majority_supp": "#ff8700",
     # "lr_supp": "#83c9ff",
     # "nupes_supp": "#ffabab",
     # "rn_supp": "mediumpurple",

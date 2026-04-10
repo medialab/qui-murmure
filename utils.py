@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from collections import defaultdict
 
 GROUPS = [
-    "ensemble",
+    "majority",
     "lr",
     "rn",
     "nupes",
@@ -511,13 +511,9 @@ def format_npz_output(save_path, size):
 
 
 def grep_group_name(filename):
-    # We search for 'LREM' before searching for 'LR'
     for group in GROUPS:
         if group in filename.lower():
-            group_name = group
-            if group_name == "lrem":
-                group_name = "ensemble"
-            return group_name
+            return group
     return ""
 
 
@@ -1085,14 +1081,14 @@ def write_general_TS(model,  nb_dates, value_int, dates):
     if model != "lda":
         model = 'bertopic'
     input_path = os.path.join("data_prod", "dashboard", model, "data")
-    files_TS =list(iter_on_files(input_path, count_nb_files(input_path))[1]) 
-    
+    files_TS =list(iter_on_files(input_path, count_nb_files(input_path))[1])
+
     if model == 'lda':
         data = np.genfromtxt(files_TS[0], delimiter=",", dtype=None, names=True, encoding="utf-8")
         data = map_party_lda(data)
         party_values = data['party']
         group_types = list(dict.fromkeys(party_values))
-    else: 
+    else:
         reader = casanova.reader(files_TS[0])
         group_types = list(dict.fromkeys(list(reader.cells('party'))))
 
@@ -1108,7 +1104,7 @@ def write_general_TS(model,  nb_dates, value_int, dates):
         index_attentive = selected_group.index('attentive')
         index_media = selected_group.index('media')
         filenamegen = "general_TS_LDA.csv"
-    else: 
+    else:
         group_interest = ['attentive', 'media', 'lr_supp']
         selected_group = [group for group in group_types if group in group_interest]
         index_supp = selected_group.index('lr_supp')
@@ -1119,8 +1115,8 @@ def write_general_TS(model,  nb_dates, value_int, dates):
             filenamegen = "general_TS_prop.csv"
         else :
             filenamegen = "general_TS.csv"
-    
-    with open(os.path.join("data_prod", "var", filenamegen), 'w') as f: 
+
+    with open(os.path.join("data_prod", "var", filenamegen), 'w') as f:
         fieldnames = ['date', 'topic', 'lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp', 'attentive', 'media']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -1133,10 +1129,10 @@ def write_general_TS(model,  nb_dates, value_int, dates):
 
                     for row in rows:
                         if iter_dates==nb_dates:
-                            break 
+                            break
                         if row == first_line:
                             continue
-                        ind_dep = iter_dates*4 
+                        ind_dep = iter_dates*4
                         if model == 'lda':
                             ind_lrs = (4 + index_lrsup) * nb_dates + iter_dates
                             ind_majs = (4 + index_majsup) * nb_dates + iter_dates
@@ -1145,9 +1141,9 @@ def write_general_TS(model,  nb_dates, value_int, dates):
                             index_att = (4 + index_attentive) * nb_dates + iter_dates
                             index_med = (4 + index_media) * nb_dates + iter_dates
 
-                        else: 
+                        else:
                             ind_lrs = (4 + index_supp) * nb_dates + iter_dates*4
-                            ind_majs = ind_lrs +1 
+                            ind_majs = ind_lrs +1
                             ind_nupess = ind_lrs +2
                             ind_rns = ind_lrs +3
                             if index_media < index_supp:
@@ -1160,7 +1156,7 @@ def write_general_TS(model,  nb_dates, value_int, dates):
                                 index_att = (8 + index_attentive -1) * nb_dates + iter_dates
 
                         writer.writerow({
-                                'date': dates[iter_dates],  
+                                'date': dates[iter_dates],
                                 'topic': row['topic'],
                                 'lr': rows[ind_dep][value_int],
                                 'majority': rows[ind_dep + 1][value_int],
