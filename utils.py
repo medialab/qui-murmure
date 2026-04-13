@@ -29,7 +29,7 @@ GROUPS = [
     "lr",
     "rn",
     "nupes",
-]  # MPs tweets should be stored in {input_folder}/{group}/YYYYMMDD.csv, e.g. data_source/lr/20221224.csv
+]  # MPs tweets should be stored in {input_folder}/congress/{group}/YYYYMMDD.csv, e.g. data_source/congress/lr/20221224.csv
 SBERT_NAME = "Lajavaness/sentence-camembert-large"  # Sentence-BERT for French tweets
 EMB_DIMENSION = 1024  # Dimension of sentence-BERT embeddings
 AN_HASHTAGS_PATTERN = r"(#directAN|#assembl[ée]enationale|#assembl[ée]national)"  # Exclude hashtags linked to French National Assembly

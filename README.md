@@ -4,6 +4,8 @@ Scripts developped for the paper "Qui murmure à l'oreille des député·es" (cu
 Most scripts are designed to be run on a GPU graphical card with 20G of RAM.
 You may not be able to reproduce some of the steps below (in particular the installation of [cuML](https://docs.rapids.ai/api/cuml/stable/)) on a CPU.
 
+Many functions and variables used in several parts of the code are defined in [utils.py](https://github.com/medialab/qui-murmure/blob/main/utils.py), for example the text preprocessing is described [here](https://github.com/medialab/qui-murmure/blob/be4274669a3d95256ec22e6fdf5a84fcb6904a52/utils.py#L477-L499).
+
 ## Installation
 
 1. Clone this repository
@@ -14,7 +16,10 @@ Recommended Python version: 3.12.4
 ```bash
 cd reproduction_wlwf
 pip install -r requirements.txt
-pip install --extra-index-url=https://pypi.nvidia.com "cudf-cu12==25.4.0" "dask-cudf-cu12==25.4.0" "c^Cl-cu12==25.4.0" "cugraph-cu12==25.4.0" "nx-cugraph-cu12==25.4.0" "cuxfilter-cu12==25.4.0" "cucim-cu12==25.4.0" "pylibraft-cu12==25.4.0" "raft-dask-cu12==25.4.0" "cuvs-cu12==25.4.0" "nx-cugraph-cu12==25.4.0"
+```
+3. Install cuML with the [correct specification](https://docs.rapids.ai/install/#selector) depending on your CUDA version (see below for CUDA 12):
+```bash
+pip install --extra-index-url=https://pypi.nvidia.com "cudf-cu12==26.4.*" "dask-cudf-cu12==26.4.*" "cuml-cu12==26.4.*" "cugraph-cu12==26.4.*" "nx-cugraph-cu12==26.4.*" "cuxfilter-cu12==26.4.*" "cucim-cu12==26.4.*" "pylibraft-cu12==26.4.*" "raft-dask-cu12==26.4.*" "cuvs-cu12==26.4.*" "nx-cugraph-cu12==26.4.*"
 ```
 
 ## Format your data in the following tree
@@ -102,6 +107,13 @@ This script produces 3 types of outputs:
 - keywords associated to each topic (one file per topic), located in `data_prod/dashboard/bertopic/img/`
 - representative tweets, (one file per public) located in `data_prod/dashboard/bertopic/representative_docs...`,
 
+## Structure time series for VAR model
+```bash
+python 04_structure_data_for_VAR.py
+```
+
+## run VAR model
+
 ## Produce the dashboard
 ```bash
 python 06_dashboard.py
@@ -112,27 +124,3 @@ Once the website is created, you can serve it using the following command:
 python -m http.server -d docs
 ```
 The website will then be visible in your browser on [http://127.0.0.1:8000/]()
-
-------
-## Optional steps (running topic modelling using LDA):
-### Create document-term matrix for a given public
-
-See the examples below.
-
-* congress:
-```bash
-python 01-create-dtm.py congress your/path/to/folder/deputes/
-```
-The results will be saved in `data_prod/dfm/congress-....txt`
-* media
-```bash
-python 01-create-dtm.py media your/path/to/folder/media/
-```
-The results will be saved in `data_prod/dfm/media-....txt`
-* supporter
-```bash
-python 01-create-dtm.py supporter your/path/to/folder/supporter/
-```
-The results will be saved in `data_prod/dfm/supporter-....txt`
-
-Etc.

@@ -4,7 +4,7 @@
 Date: 2026-04-13
 Authors: Béatrice Mazoyer, Fynch Meynent
 
-Apply BERTopic to get each tweet associated to a topic (or considered as outlier).
+Applies BERTopic to get each tweet associated to a topic (or labeled as outlier).
 This script produces 4 outputs:
 - time series: one file per topic, located in data_prod/dashboard/bertopic/data/
 - keywords associated to each topic: one file per topic, located in data_prod/dashboard/bertopic/img/
