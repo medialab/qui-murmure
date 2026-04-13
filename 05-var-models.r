@@ -1,3 +1,10 @@
+#===============================================================================
+#  05-var-models.r
+#  Date:	2026-04-13
+#  Author: Fynch Meynent
+#  Purpose: Run VAR model
+#===============================================================================
+
 library(tidyverse)
 library(tidyr)
 library(stats)
@@ -35,7 +42,7 @@ set.seed(1)
 variables <- c('lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp', 'attentive', 'media')
 
 if (args$estimate || args$tests || args$tests_post){
-  #Put our main databse generated thanks to script 05a 
+  #Put our main database generated thanks to script 04_structure_data_for_VAR.py
   db <- read_csv("data_prod/var/general_TS.csv", show_col_types = FALSE)
   titles <- read_csv("data_prod/figures/translate_number_name/BERTOPIC_LABEL.csv", col_names = TRUE, show_col_types=FALSE)
   colnames(titles) = c("Topic", "label")

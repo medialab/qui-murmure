@@ -4,9 +4,7 @@
 Date: 2024-08-21
 Author: Béatrice Mazoyer
 
-Takes csv files with tweets and encode them using Sentence-BERT
-(this time, one document = one thread, as opposed to
-the strategy in 01-create-dtm.py)
+Takes csv files with tweets and encode them using Sentence-BERT.
 
 NOTE: running this script requires access to the original corpus of
 tweets, which we cannot share publicly in order to comply with Twitter's

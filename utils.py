@@ -1,18 +1,28 @@
+"""
+# utils.py
+
+Date: 2026-04-13
+Authors: Béatrice Mazoyer, Fynch Meynent
+
+Python functions and variables imported in scripts 01 to 06.
+"""
+
 import io
 import os
 import re
+import csv
 import glob
 import tarfile
 import casanova
-import csv
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from unidecode import unidecode
+from collections import defaultdict
 from transformers import CamembertTokenizer
 from fog.tokenizers.words import WordTokenizer
 from sklearn.feature_extraction.text import CountVectorizer
-from collections import defaultdict
+
 
 GROUPS = [
     "majority",

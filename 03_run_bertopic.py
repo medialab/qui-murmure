@@ -1,3 +1,19 @@
+"""
+# 03_run_bertopic.py
+
+Date: 2026-04-13
+Authors: Béatrice Mazoyer, Fynch Meynent
+
+Apply BERTopic to get each tweet associated to a topic (or considered as outlier).
+This script produces 4 outputs:
+- time series: one file per topic, located in data_prod/dashboard/bertopic/data/
+- keywords associated to each topic: one file per topic, located in data_prod/dashboard/bertopic/img/
+- representative tweets: one file per public, located in data_prod/dashboard/bertopic/representative_docs...,
+- topic associated to each tweet's id: one file per oublic, located in data_prod/dashboard/bertopic/ids_topics_...
+
+NOTE: to use standard UMAP instead of cuML UMAP, replace line 2O by line 21.
+"""
+
 import os
 import sys
 import argparse

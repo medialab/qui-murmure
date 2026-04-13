@@ -1,3 +1,10 @@
+#===============================================================================
+#  utils_R.r
+#  Date: 2026-04-13
+#  Author: Fynch Meynent
+#  Purpose: R functions used in 05-var-models.r
+#===============================================================================
+
 library(tidyverse)
 library(tidyr)
 library(stats)

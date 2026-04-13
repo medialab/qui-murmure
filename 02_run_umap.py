@@ -1,3 +1,15 @@
+"""
+# 02_run_umap.py
+
+Date: 2026-04-13
+Author: Béatrice Mazoyer
+
+Takes the matrix of Sentence-BERT vectors and reduces its dimensionality using UMAP.
+
+NOTE: to use standard UMAP instead of cuML UMAP, replace line 2O by line 21.
+"""
+
+
 import os
 import argparse
 import numpy as np

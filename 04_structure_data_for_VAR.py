@@ -1,5 +1,11 @@
 """
+# 04_structure_data_for_VAR.py
+
+Date: 2026-04-13
+Author: Fynch Meynent
+
 The aim of this script is to create a database to an accomodating format for VAR model implementation
+
 """
 
 from datetime import datetime, timedelta

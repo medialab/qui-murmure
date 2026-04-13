@@ -1,3 +1,12 @@
+"""
+# 06_dashboard.py
+
+Date: 2026-04-13
+Author: Béatrice Mazoyer
+
+Produces a dashboard where each page represents one topic.
+"""
+
 import os
 import random
 import requests
