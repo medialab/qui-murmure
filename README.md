@@ -112,7 +112,7 @@ This script produces 3 types of outputs:
 python 04_structure_data_for_VAR.py
 ```
 
-## run VAR model
+## Run VAR model
 
 ## Produce the dashboard
 ```bash
