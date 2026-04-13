@@ -209,13 +209,21 @@ for topic in all_topics:
         .properties(width=600, height=200)
     )
 
-    nearest = alt.selection_point(nearest=True, on="pointerover", fields=["date:T"], empty=False)
+    nearest = alt.selection_point(
+        nearest=True, on="pointerover", fields=["date:T"], empty=False
+    )
 
-    rules = alt.Chart(ts_data).mark_rule(color="gray").encode(
-        x="date:T",
-        opacity=alt.value(0),
-        tooltip=alt.Tooltip("date:T", format="%e %B %Y")
-    ).add_params(nearest).properties(width=600, height=200)
+    rules = (
+        alt.Chart(ts_data)
+        .mark_rule(color="gray")
+        .encode(
+            x="date:T",
+            opacity=alt.value(0),
+            tooltip=alt.Tooltip("date:T", format="%e %B %Y"),
+        )
+        .add_params(nearest)
+        .properties(width=600, height=200)
+    )
 
     chart_with_rules = alt.layer(chart_ts, rules)
 

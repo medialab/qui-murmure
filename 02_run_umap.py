@@ -75,7 +75,7 @@ for public in choices:
     all_public_matrix[start_index : start_index + end_index] = embeddings
     start_index += end_index
 
-size = int(all_public_matrix.shape[0]/3)
+size = int(all_public_matrix.shape[0] / 3)
 idx = rng.choice(all_public_matrix.shape[0], size=size, replace=False)
 sample = all_public_matrix[idx, :]
 print(f"Run dimensionality reduction with {umap_model} on {size} rows")
@@ -89,7 +89,11 @@ for public in choices:
     nb_rows_public = nb_docs_per_public[public]
     reduced_matrix = np.empty((nb_rows_public, n_components))
     for i in tqdm(range(0, nb_rows_public, batch_size)):
-        batch = all_public_matrix[start_index + i : min(start_index + i + batch_size, start_index + nb_rows_public)]
+        batch = all_public_matrix[
+            start_index + i : min(
+                start_index + i + batch_size, start_index + nb_rows_public
+            )
+        ]
         reduced_batch = umap_model.transform(batch)
         reduced_matrix[i : min(i + batch_size, nb_rows_public)] = reduced_batch
     output_path = create_dir(
