@@ -2,21 +2,8 @@
 The aim of this script is to create a database to an accomodating format for VAR model implementation
 """
 
-import os
-import numpy as np
-import csv
-import casanova
-from collections import defaultdict
 from datetime import datetime, timedelta
-import subprocess
-
-from utils import (
-    existing_dir_path,
-    create_dir,
-    count_nb_files,
-    iter_on_files,
-    write_general_TS,
-)
+from utils import write_general_TS
 
 
 def list_dates(start_date: str, end_date: str):

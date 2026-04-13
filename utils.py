@@ -1120,6 +1120,30 @@ def write_keywords(topic, words, x, root=os.getcwd()):
             writer.writerow([word, score])
 
 
+def map_party_lda(data):
+    party_map = {
+        "dep. lr": "lr",
+        "dep. majo.": "majority",
+        "dep. nupes": "nupes",
+        "dep. rn": "rn",
+        "medias": "media",
+        "sup. lr": "lr_supp",
+        "sup. majo.": "majority_supp",
+        "sup. nupes": "nupes_supp",
+        "sup. rn": "rn_supp",
+        "pub. attentif": "attentive",
+        "pub. general": "general",
+    }
+
+    party_column = np.array([party_map.get(affil, "Other") for affil in data["actor"]])
+    new_dtype = data.dtype.descr + [("party", "U30")]
+    new_data = np.empty(data.shape, dtype=new_dtype)
+    for name in data.dtype.names:
+        new_data[name] = data[name]
+        new_data["party"] = party_column
+    return new_data
+
+
 def write_general_TS(model, nb_dates, value_int, dates):
     if model == "lda" and value_int == "nb_tweets":
         raise ValueError("No nb_tweets available for lda")
@@ -1157,7 +1181,6 @@ def write_general_TS(model, nb_dates, value_int, dates):
         index_majsup = selected_group.index("majority_supp")
         index_nupessup = selected_group.index("nupes_supp")
         index_rnsup = selected_group.index("rn_supp")
-        index_gen = selected_group.index("general")
         index_attentive = selected_group.index("attentive")
         index_media = selected_group.index("media")
         filenamegen = "general_TS_LDA.csv"
