@@ -107,12 +107,30 @@ This script produces 3 types of outputs:
 - keywords associated to each topic (one file per topic), located in `data_prod/dashboard/bertopic/img/`
 - representative tweets, (one file per public) located in `data_prod/dashboard/bertopic/representative_docs...`,
 
-## Structure time series for VAR model
+## Run VAR model
+
+Firstly, run this script to create a file that has the correct format for the VAR model script. 
+
 ```bash
 python 04_structure_data_for_VAR.py
 ```
+This generates a file located in the following path: `data_prod/dashboard/general_TS.csv`. 
 
-## Run VAR model
+To run the VAR model, you can use a script with some options:
+- tests: this option will generate a file located in `data_prod/var/issue-level/infos_topics.csv`. For each topic, this file tells the stationarity type (stationary for each group, stationary in difference for each group, or different type of stationarity between groups), the AIC/HQ/FPE/SC selection criteria, and the minimum number of lags that are necessary to avoid autocorrelation of residuals. This file must exist to use the estimate option. 
+- estimate: this option will estimate the VAR model for each topic and calculate GIRF. For each topic, it will generate a file for the VAR model parameter located in `data_prod/var/issue-level/var_model_{topic_number}.Rdata` and a GIRF file `data_prod/var/issue-level/var_girf_topic_{topic_number}.Rdata`. VAR model files must exist to use the tests_post option. 
+- tests_post: This option will generate a file located  `data_prod/var/issue-level/post_checks.csv`. For each topic, it will indicate if the maximum of absolute values of the roots, if the absence of autocorrelation for residuals is assessed (Portmanteau test), and if the normality of residuals is accepted (multivariate Jarque-Bera test).
+- number_irf: the number of days for cumulated GIRF chosen for some outputs (default: 40)
+
+If files linked to estimation exist, this script generates the following file: `data_prod/var/irf_data.csv` which is a file with cumulated GIRF data for the number of days chosen in the number_irf option. 
+
+Here is an example of the script to generate cumulated IRF for 30 days with all options.
+
+```bash
+Rscript 05-var-models.r --tests --estimate --tests_post --number_irf 30
+```
+
+
 
 ## Produce the dashboard
 ```bash

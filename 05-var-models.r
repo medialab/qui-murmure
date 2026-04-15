@@ -58,7 +58,7 @@ if (args$estimate || args$tests || args$tests_post){
   db <- db %>%
     filter(topic %in% pol_issues)
 
-  write.csv(db, file="data_prod/var/general_TS_clean.csv")
+  #write.csv(db, file="data_prod/var/general_TS_clean.csv")
 
   for (v in variables){
     db[[v]] <- log(db[[v]] + 1)
@@ -112,7 +112,7 @@ if (args$tests){
     mutate(n_OK = rowSums(across(everything(), ~ . == "OK")))
 
   statio_by_group <- merge(statio_by_group, titles, by="Topic", all.x = TRUE)
-  write.csv(statio_by_group, file="data_prod/var/issue-level/statio_details.csv",  row.names = FALSE)
+  #write.csv(statio_by_group, file="data_prod/var/issue-level/statio_details.csv",  row.names = FALSE)
   cat("Résultats de stationnarité sur les séries concaténées \n")
   results_df <- do.call(rbind, lapply(results_list, function(x) data.frame(t(unlist(x)), stringsAsFactors = FALSE)))
   colnames(results_df) <- c("topic", "variable", "p_value")
@@ -275,10 +275,10 @@ if (args$tests){
   pacf_exp <- transfo_acf(pacf_sum)
 
   #Afficher et enregistrer les résultats
-  write.csv(ACF_data, file=paste0("data_prod/var/issue-level/ACF_full.csv"))
-  write.csv(PACF_data, file=paste0("data_prod/var/issue-level/PACF_full.csv"))
-  write.csv(acf_exp, file=paste0("data_prod/var/issue-level/ACF_results.csv"))
-  write.csv(pacf_exp, file=paste0("data_prod/var/issue-level/PACF_results.csv"))
+  #write.csv(ACF_data, file=paste0("data_prod/var/issue-level/ACF_full.csv"))
+  #write.csv(PACF_data, file=paste0("data_prod/var/issue-level/PACF_full.csv"))
+  #write.csv(acf_exp, file=paste0("data_prod/var/issue-level/ACF_results.csv"))
+  #write.csv(pacf_exp, file=paste0("data_prod/var/issue-level/PACF_results.csv"))
   
   plot_PACFS(ACF_data, "ACF")
   plot_PACFS(PACF_data, "PACF")
@@ -484,12 +484,12 @@ irf_plot <- irf_plot %>%
 irf_plot <- left_join(irf_plot, pa2our, by = c("topic" = "issue_num"))
 
 write.csv(irf_plot, file="data_prod/var/irf_data.csv", row.names = FALSE)
-
+'''
 irf_data <- irf_plot #Cov (origine impulse) : ligne , Out (reçoit impulse) : colonne 
 n_topic <- length(unique(irf_data$topic))
-variables <- c('lr', 'majority', 'nupes', 'rn',
-               'lr_supp', 'majority_supp', 'nupes_supp', 'rn_supp',
-               'attentive', 'media')
+variables <- c("lr", "majority", "nupes", "rn",
+               "lr_supp", "majority_supp", "nupes_supp", "rn_supp",
+               "attentive", "media")
 readable_variables <- c("Députés LR", 
                         "Députés Ensemble",
                         "Députés NUPES",
@@ -584,3 +584,4 @@ p <- ggplot(partial_matrix_LF, aes(x = out, y = cov, fill = n)) +
   print(p)
   dev.off()
 
+'''
