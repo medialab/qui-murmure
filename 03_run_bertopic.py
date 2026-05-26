@@ -9,9 +9,8 @@ This script produces 4 outputs:
 - time series: one file per topic, located in data_prod/dashboard/bertopic/data/
 - keywords associated to each topic: one file per topic, located in data_prod/dashboard/bertopic/img/
 - representative tweets: one file per public, located in data_prod/dashboard/bertopic/representative_docs...,
-- topic associated to each tweet's id: one file per oublic, located in data_prod/dashboard/bertopic/ids_topics_...
+- topic associated to each tweet's id: one file per public, located in data_prod/dashboard/bertopic/ids_topics_...
 
-NOTE: to use standard UMAP instead of cuML UMAP, replace line 2O by line 21.
 """
 
 import os
@@ -190,7 +189,7 @@ for group in group_list:
 
     repr_docs_ids = extract_representative_docs(docs, topics, topic_model)
 
-    # Write representative docs for one public in one file
+    # Write representative docs for one public in one file and write topic for each tweet id
     write_ids_and_representative_docs(
         repr_docs_ids,
         topics,
