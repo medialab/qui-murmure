@@ -21,7 +21,7 @@ from cuml.manifold import UMAP
 
 
 from utils import (
-    choices,
+    PUBLICS,
     create_dir,
     existing_dir_path,
     load_embeddings,
@@ -67,7 +67,7 @@ args = parser.parse_args()
 nb_docs_per_public = {}
 paths_per_public = {"text": {}, "embs": {}}
 
-for public in choices:
+for public in PUBLICS:
     paths_per_public["text"][public], paths_per_public["embs"][public] = get_paths(
         args.origin_path, public
     )
@@ -77,7 +77,7 @@ for public in choices:
 all_public_matrix = np.empty((sum(nb_docs_per_public.values()), EMB_DIMENSION))
 
 start_index = 0
-for public in choices:
+for public in PUBLICS:
     print(f"Load embeddings for public {public}")
     end_index, embeddings = load_embeddings(
         paths_per_public["embs"][public],
@@ -97,7 +97,7 @@ with Timer(f"Ran dimensionality reduction on {size} rows in"):
 
 batch_size = 100_000
 start_index = 0
-for public in choices:
+for public in PUBLICS:
     nb_rows_public = nb_docs_per_public[public]
     reduced_matrix = np.empty((nb_rows_public, n_components))
     for i in tqdm(range(0, nb_rows_public, batch_size)):

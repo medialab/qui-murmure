@@ -23,7 +23,7 @@ import numpy as np
 
 
 from utils import (
-    choices,
+    PUBLICS,
     count_nb_files,
     count_topics_info,
     existing_dir_path,
@@ -64,7 +64,7 @@ parser.add_argument(
     help=(
         "List the political group you want to compute in the following format : group1,group2,group3. Choose group names in the following terms : congress, general, attentive, supporter, media"
     ),
-    default=",".join(choices),
+    default=",".join(PUBLICS),
 )
 
 
@@ -88,10 +88,10 @@ args = parser.parse_args()
 group_list = args.public.split(",")
 
 for elem in group_list:
-    if elem not in choices:
+    if elem not in PUBLICS:
         raise ValueError(
             "You used an innacurate name of group in your group argument."
-            "Choose group names in the following terms : {}".format(choices)
+            "Choose group names in the following terms : {}".format(PUBLICS)
         )
 
 empty_dimensionality_model = BaseDimensionalityReduction()

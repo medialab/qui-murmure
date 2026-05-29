@@ -21,7 +21,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from utils import (
-    choices,
+    PUBLICS,
     SBERT_NAME,
     sbert_name_string,
     count_nb_files,
@@ -41,7 +41,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument(
     "public",
-    choices=choices,
+    choices=PUBLICS,
     help="Choose the political group you want to encode : congress, attentive, media, supporter",
 )
 
