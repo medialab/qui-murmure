@@ -136,8 +136,7 @@ for public in publics:
                 topic_id = None
             if topic_id is not None:
                 date_dict["total"] += 1
-                # if file_date == "2022-08-10" and public == "supporter" and group_name == "majority":
-                #     print(date_dict["total"], topic_id, f"retweeted_id: {row[rt_pos]}, retweeted_user: {row[reader.headers.retweeted_user]}, id : {row[id_pos]}")
+
                 if topic_id not in date_dict:
                     date_dict[topic_id] = 0
                 date_dict[topic_id] += 1
