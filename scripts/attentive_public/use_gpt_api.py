@@ -9,7 +9,7 @@ import time
 from sklearn.metrics import classification_report
 import casanova
 
-from train import preprocess_tweet
+from train_bert import preprocess_tweet
 from metrics import print_metrics
 
 API_KEY = sys.argv[1]
