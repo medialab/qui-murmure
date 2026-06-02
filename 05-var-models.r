@@ -35,6 +35,10 @@ parser$add_argument("--tests_post", action = "store_true",
 parser$add_argument("--number_irf", help="Choose a int who will represent the number of days in IRF calculation", type="integer", default=40)
 
 
+parser$add_argument("--RT", action = "store_true",
+                    help = "Run the models considering retweets instead of tweets only.")
+
+
 args <- parser$parse_args()
 
 set.seed(1)
@@ -43,7 +47,11 @@ variables <- c('lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nup
 
 if (args$estimate || args$tests || args$tests_post){
   #Put our main database generated thanks to script 04_structure_data_for_VAR.py
-  db <- read_csv("data_prod/var/general_TS.csv", show_col_types = FALSE)
+  if args$RT {
+    db <- read_csv("data_prod/var/general_TS_withRT.csv", show_col_types = FALSE)
+  } else {
+    db <- read_csv("data_prod/var/general_TS.csv", show_col_types = FALSE)
+  }
   titles <- read_csv("data_prod/figures/translate_number_name/BERTOPIC_LABEL.csv", col_names = TRUE, show_col_types=FALSE)
   colnames(titles) = c("Topic", "label")
   pol_issues <- unique(titles$Topic)
@@ -320,12 +328,22 @@ if (args$tests){
     }
   }
 
-  path_info <- "data_prod/var/issue-level/infos_topics.csv"
+  if (args$RT){
+    path_info <- "data_prod/var/issue-level/infos_topics_withRT.csv"
+  } else {
+    path_info <- "data_prod/var/issue-level/infos_topics.csv"
+  }
+
   write.csv(infos_topic, file=path_info, row.names = FALSE)
 }
 
 if (args$estimate){
-  path_infos_topic <- "data_prod/var/issue-level/infos_topics.csv"
+  if (args$RT){
+    path_infos_topic <- "data_prod/var/issue-level/infos_topics_withRT.csv"
+  } else {
+    path_infos_topic <- "data_prod/var/issue-level/infos_topics.csv"
+  }
+  
   if(!(file.exists(path_infos_topic))){
     stop("Please, run --tests before to estimate the model, the file to determine lags number in VAR process doesn't exist.")
   }
@@ -348,9 +366,14 @@ if (args$estimate){
     #db_topic <- scale(as.matrix(db_topic))
     db_topic <- as.data.frame(db_topic)
     var_model <- VAR(db_topic, p=lag_number, type="const")
-    save(var_model, file = paste0("data_prod/var/issue-level/var_model_", topic_num, ".Rdata"))
     var_irfs_cum <- irf.varest.edit(var_model,n.ahead = 60, irf_type = "generalized", cumulative = TRUE, boot = TRUE, ci = 0.95, runs = 500) #Calculate cumulative GIRF 
-    save(var_irfs_cum, file = paste0("data_prod/var/issue-level/var_girf_topic_", topic_num, ".Rdata"))
+    if (args$RT){
+      save(var_model, file = paste0("data_prod/var/issue-level/RT/var_model_", topic_num, ".Rdata"))
+      save(var_irfs_cum, file = paste0("data_prod/var/issue-level/RT/var_girf_topic_", topic_num, ".Rdata"))
+    } else {
+      save(var_model, file = paste0("data_prod/var/issue-level/var_model_", topic_num, ".Rdata"))
+      save(var_irfs_cum, file = paste0("data_prod/var/issue-level/var_girf_topic_", topic_num, ".Rdata"))
+    }
   }
 }
 
@@ -361,7 +384,14 @@ if(args$tests_post){
   colnames(infos_topic_post) <- c("Topic", "Max_Modul", "Serial_AC", "Norm.")
   for (topic_num in list_topic_iter){
     print(paste("Posterior tests for topic", topic_num))
-    var_path <- paste0("data_prod/var/issue-level/var_model_", topic_num, ".Rdata")
+    if(args$RT){
+      var_path <- paste0("data_prod/var/issue-level/RT/var_model_", topic_num, ".Rdata")
+      path_post <-  "data_prod/var/issue-level/RT/post_checks.csv"
+    } else {
+      var_path <- paste0("data_prod/var/issue-level/var_model_", topic_num, ".Rdata")
+      path_post <-  "data_prod/var/issue-level/post_checks.csv"
+    }
+  
     if (!(file.exists(var_path))){
       stop("run estimate option because the model weren't estimated")
     }
@@ -413,7 +443,6 @@ if(args$tests_post){
     infos_topic_post <- rbind(infos_topic_post, new_row)
   }
     
-  path_post <-  "data_prod/var/issue-level/post_checks.csv"
   colnames(infos_topic_post) <- c("Topic", "Max_Modul", "Serial_AC", "Norm.")
   write.csv(infos_topic_post, file=path_post, row.names = FALSE)
 }
@@ -441,7 +470,11 @@ row_number <- number_irf + 1
 for (top in pol_issues) {
   counter <- counter + 1
   print(paste0("[", counter, "/", total, "]"))
-  file_name <- paste0("data_prod/var/issue-level/var_girf_topic_", top, ".Rdata")
+  if (args$RT){
+    file_name <- paste0("data_prod/var/issue-level/RT/var_girf_topic_", top, ".Rdata")
+  } else {
+    file_name <- paste0("data_prod/var/issue-level/var_girf_topic_", top, ".Rdata")
+  }
   load(file_name) # object name: 'var_irfs_cum'
   girf <- var_irfs_cum 
   # - iterating through endogenous covariates and endogenous responses
@@ -483,7 +516,12 @@ irf_plot <- irf_plot %>%
 
 irf_plot <- left_join(irf_plot, pa2our, by = c("topic" = "issue_num"))
 
-write.csv(irf_plot, file="data_prod/var/irf_data.csv", row.names = FALSE)
+if(args$RT){
+  write.csv(irf_plot, file="data_prod/var/irf_data_withRT.csv", row.names = FALSE)
+} else {
+  write.csv(irf_plot, file="data_prod/var/irf_data.csv", row.names = FALSE)
+}
+
 '''
 irf_data <- irf_plot #Cov (origine impulse) : ligne , Out (reçoit impulse) : colonne 
 n_topic <- length(unique(irf_data$topic))

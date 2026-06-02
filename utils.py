@@ -1154,15 +1154,19 @@ def map_party_lda(data):
     return new_data
 
 
-def write_general_TS(model, nb_dates, value_int, dates):
+def write_general_TS(model, nb_dates, value_int, dates, RT = False, nb_topic=93): #Faire une option withRT avec le nom de sorti general_TS_withRT.csv
     if model == "lda" and value_int == "nb_tweets":
         raise ValueError("No nb_tweets available for lda")
     if value_int != "prop" and value_int != "nb_tweets":
         raise ValueError("Please, choose an existing value measure : prop or nb_tweets")
     if model != "lda":
         model = "bertopic"
-    input_path = os.path.join("data_prod", "dashboard", model, "data")
-    files_TS = list(iter_on_files(input_path, count_nb_files(input_path))[1])
+    if RT:
+        input_path = os.path.join("data_prod", "dashboard", model, "data", "with_retweets")
+        files_TS = list(iter_on_files(input_path, count_nb_files(input_path))[1])
+        print(files_TS)
+    else:
+        files_TS = [os.path.join("data_prod", "dashboard", model, "data",f"bertopic_ts_{i}.csv") for i in range(-1,nb_topic)]
 
     if model == "lda":
         data = np.genfromtxt(
@@ -1176,6 +1180,8 @@ def write_general_TS(model, nb_dates, value_int, dates):
         group_types = list(dict.fromkeys(list(reader.cells("party"))))
 
     if model == "lda":
+        if RT:
+            raise ValueError("No RT option with LDA")
         group_interest = [
             "attentive",
             "general",
@@ -1204,7 +1210,10 @@ def write_general_TS(model, nb_dates, value_int, dates):
         if value_int == "prop":
             filenamegen = "general_TS_prop.csv"
         else:
-            filenamegen = "general_TS.csv"
+            if RT:
+                filenamegen = "general_TS_withRT.csv"
+            else: 
+                filenamegen = "general_TS.csv"
 
     with open(os.path.join("data_prod", "var", filenamegen), "w") as f:
         fieldnames = [
