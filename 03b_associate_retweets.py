@@ -158,19 +158,17 @@ with Timer("Write time series with retweets"):
                 fieldnames=["date", "party", "topic", "prop", "nb_tweets", "total"],
             )
 
-            for public in retweets_topics_count:
-                if public in ["congress", "supporter"]:
-                    for group in retweets_topics_count[public]:
-                        party = (
-                            group if public == "congress" else "{}_supp".format(group)
-                        )
-
-                        for date in retweets_topics_count[public][group]:
+            for public in publics:
+                for date in retweets_topics_count["attentive"]:
+                    if public in ["congress", "supporter"]:
+                        for group in sorted(GROUPS):
+                            party = (
+                                group if public == "congress" else "{}_supp".format(group)
+                            )
                             results = retweets_topics_count[public][group][date]
                             write_time_serie_with_retweets(results, writer, topic, party, date)
 
-                else:
-                    for date in retweets_topics_count[public]:
+                    else:
                         results = retweets_topics_count[public][date]
                         write_time_serie_with_retweets(results, writer, topic, public, date)
 
