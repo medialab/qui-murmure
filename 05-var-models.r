@@ -47,7 +47,7 @@ variables <- c('lr', 'majority', 'nupes', 'rn', 'lr_supp', 'majority_supp', 'nup
 
 if (args$estimate || args$tests || args$tests_post){
   #Put our main database generated thanks to script 04_structure_data_for_VAR.py
-  if args$RT {
+  if (args$RT) {
     db <- read_csv("data_prod/var/general_TS_withRT.csv", show_col_types = FALSE)
   } else {
     db <- read_csv("data_prod/var/general_TS.csv", show_col_types = FALSE)
@@ -522,7 +522,7 @@ if(args$RT){
   write.csv(irf_plot, file="data_prod/var/irf_data.csv", row.names = FALSE)
 }
 
-'''
+
 irf_data <- irf_plot #Cov (origine impulse) : ligne , Out (reçoit impulse) : colonne 
 n_topic <- length(unique(irf_data$topic))
 variables <- c("lr", "majority", "nupes", "rn",
@@ -567,11 +567,19 @@ filt_irf <- irf_data %>%
     )
   )
 
-print(head(filt_irf), 10)
+if (args$RT){
+  total_name <- "data_prod/var/irf-analysis/RT/number_leading_relations_pairs.png"
+  positive_name <- "data_prod/var/irf-analysis/RT/number_leading_positive_relations_pairs.png"
+  negative_name <- "data_prod/var/irf-analysis/RT/number_leading_negative_relations_pairs.png"
+} else {
+  total_name <- "data_prod/var/irf-analysis/number_leading_relations_pairs.png"
+  positive_name <- "data_prod/var/irf-analysis/number_leading_positive_relations_pairs.png"
+  negative_name <- "data_prod/var/irf-analysis/number_leading_negative_relations_pairs.png"
+}
 
 #Plots : number leader, follower
 
-#Matrix lead follow
+#Matrix lead follow total
 matrix_LF <- filt_irf %>%
     count(cov, out) %>%
     complete(cov = readable_variables, out = readable_variables, fill = list(n = 0))  %>%
@@ -580,7 +588,7 @@ matrix_LF <- filt_irf %>%
       out = factor(out, levels = readable_variables)
     )
 
-png("data_prod/var/irf-analysis/number_leading_relations_pairs.png",width = 800, height = 600)
+png(total_name,width = 800, height = 600)
 p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
   geom_tile(color = "white", linewidth = 0.3) +
   geom_text(aes(label = n), color = "black", size = 3) + 
@@ -594,6 +602,56 @@ p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
   print(p)
   dev.off()
 
+#Positive matrix
+matrix_LF <- filt_irf %>%
+    filter(lwr > 0) %>%
+    count(cov, out) %>%
+    complete(cov = readable_variables, out = readable_variables, fill = list(n = 0))  %>%
+    mutate(
+      cov = factor(cov, levels = readable_variables),
+      out = factor(out, levels = readable_variables)
+    )
+
+png(positive_name,width = 800, height = 600)
+p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
+  geom_tile(color = "white", linewidth = 0.3) +
+  geom_text(aes(label = n), color = "black", size = 3) + 
+  scale_fill_gradient(low = "#efffff", high = "#FF0000") +
+  theme_minimal(base_size = 14) +
+  labs(title = "",
+       x = "Destination", y = "Origine", fill = "Occurrences") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid = element_blank(),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+  print(p)
+  dev.off()
+
+#Negative Matrix
+matrix_LF <- filt_irf %>%
+    filter(upr < 0) %>%
+    count(cov, out) %>%
+    complete(cov = readable_variables, out = readable_variables, fill = list(n = 0))  %>%
+    mutate(
+      cov = factor(cov, levels = readable_variables),
+      out = factor(out, levels = readable_variables)
+    )
+
+png(negative_name,width = 800, height = 600)
+p <- ggplot(matrix_LF, aes(x = out, y = cov, fill = n)) +
+  geom_tile(color = "white", linewidth = 0.3) +
+  geom_text(aes(label = n), color = "black", size = 3) + 
+  scale_fill_gradient(low = "#efffff", high = "#003366") +
+  theme_minimal(base_size = 14) +
+  labs(title = "",
+       x = "Destination", y = "Origine", fill = "Occurrences") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid = element_blank(),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+  print(p)
+  dev.off()
+
+
+'''
 #Partial matrix 
 
 partial_variables <- c("Députés LR","Députés Ensemble","Députés NUPES","Députés RN","Supporters LR","Supporters Ensemble","Supporters NUPES","Supporters RN")

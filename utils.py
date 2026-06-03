@@ -1164,7 +1164,6 @@ def write_general_TS(model, nb_dates, value_int, dates, RT = False, nb_topic=93)
     if RT:
         input_path = os.path.join("data_prod", "dashboard", model, "data", "with_retweets")
         files_TS = list(iter_on_files(input_path, count_nb_files(input_path))[1])
-        print(files_TS)
     else:
         files_TS = [os.path.join("data_prod", "dashboard", model, "data",f"bertopic_ts_{i}.csv") for i in range(-1,nb_topic)]
 
