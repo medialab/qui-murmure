@@ -467,7 +467,12 @@ total <- length(pol_issues)
 counter <- 0
 number_irf <- args$number_irf
 row_number <- number_irf + 1
+
+seuil_data <- as.data.frame(matrix(NA,nrow=0, ncol=2))
+colnames(seuil_data) <- c("Topic", "Seuil")
+seuil = 0.025
 for (top in pol_issues) {
+  seuil_day = 2
   counter <- counter + 1
   print(paste0("[", counter, "/", total, "]"))
   if (args$RT){
@@ -479,6 +484,7 @@ for (top in pol_issues) {
   girf <- var_irfs_cum 
   # - iterating through endogenous covariates and endogenous responses
   covs <- names(girf$irf)
+  seuil_days <- c()
   for (covariate in covs) {
       new_rows <- data.frame(
         topic= rep(as.character(top), length(covs)), 
@@ -489,8 +495,32 @@ for (top in pol_issues) {
         upr = girf$Upper[[covariate]][row_number,]
       )
     irf_data <- rbind(irf_data, new_rows)
+    for (i in 3:nrow(girf$irf[[covariate]])){
+      delta1_max = 0
+      delta2_max = 0
+      max_seuil = 0
+      for (v in variables){
+        delta1= abs(girf$irf[[covariate]][i,][v] - girf$irf[[covariate]][i-1,][v])
+        delta2= abs(girf$irf[[covariate]][i,][v] - girf$irf[[covariate]][i-2,][v])
+        delta1_max = max(delta1_max, delta1)
+        delta2_max = max(delta2_max,delta2)
+        }
+      max_seuil <- max(delta1_max, delta2_max)
+      if (max_seuil<seuil){ 
+        seuil_day = max(seuil_day, i)
+        seuil_days <- c(seuil_days, c(seuil_day))
+        break 
+      }
+    }
   }
+  new_row <-data.frame(
+    Topic = top,
+    Seuil = max(seuil_days)
+  ) 
+  seuil_data <- rbind(seuil_data, new_row)
 }
+
+write.csv(seuil_data, file="data_prod/var/seuil_data.csv", row.names = FALSE)
 
 irf_plot <- irf_data
 agenda_type <- data.frame(
