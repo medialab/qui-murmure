@@ -14,7 +14,7 @@
 <label for="topic-select"></label>
 <select id="topic-select">
   {% for t, title in titles.items() %}
-    <option value="{{ t }}" {% if t == topic %}selected="selected"{% endif %}>
+    <option value="{{ t }}" {% if t == topic %} selected="selected" {% endif %}>
       {{ title }}
     </option>
   {% endfor %}

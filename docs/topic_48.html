@@ -162,16 +162,16 @@
       Fusillade centre culturel kurde
     </option>
   
+    <option value="48"  selected="selected" >
+      Hommage à Samuel Paty
+    </option>
+  
     <option value="54" >
       Meurtre professeure Saint-Jean-de-Luz
     </option>
   
     <option value="64" >
       Meurtre de Lola Daviet
-    </option>
-  
-    <option value="68" >
-      Gendarmerie et sécurité
     </option>
   
     <option value="4" >
@@ -204,6 +204,10 @@
   
     <option value="51" >
       Giorgia Meloni
+    </option>
+  
+    <option value="73" >
+      Séisme en Turquie et Syrie
     </option>
   
     <option value="81" >
@@ -340,6 +344,10 @@
   
     <option value="43" >
       FDO blessées, refus d'obtempérer, agressions
+    </option>
+  
+    <option value="68" >
+      Gendarmerie et sécurité
     </option>
   
     <option value="33" >
@@ -19590,7 +19598,7 @@
             "opacity": {
               "condition": [
                 {
-                  "param": "param_97",
+                  "param": "param_1",
                   "value": 1
                 }
               ],
@@ -19612,7 +19620,7 @@
           "mark": {
             "type": "line"
           },
-          "name": "view_97",
+          "name": "view_1",
           "title": {
             "subtitle": "Nombre de tweets du topic rapport\u00e9 au nombre de tweets \u00e9mis le m\u00eame jour par le m\u00eame public.",
             "text": "Proportion d'attention accord\u00e9e au topic par chacun des publics au cours du temps"
@@ -19637,7 +19645,7 @@
             "color": "gray",
             "type": "rule"
           },
-          "name": "view_98"
+          "name": "view_2"
         }
       ],
       "width": 600
@@ -19715,7 +19723,7 @@
   "params": [
     {
       "bind": "legend",
-      "name": "param_97",
+      "name": "param_1",
       "select": {
         "fields": [
           "party"
@@ -19725,11 +19733,11 @@
       },
       "value": "m\u00e9dias",
       "views": [
-        "view_97"
+        "view_1"
       ]
     },
     {
-      "name": "param_98",
+      "name": "param_2",
       "select": {
         "fields": [
           "date:T"
@@ -19739,7 +19747,7 @@
         "type": "point"
       },
       "views": [
-        "view_98"
+        "view_2"
       ]
     }
   ]

@@ -162,16 +162,16 @@
       Fusillade centre culturel kurde
     </option>
   
+    <option value="48" >
+      Hommage à Samuel Paty
+    </option>
+  
     <option value="54" >
       Meurtre professeure Saint-Jean-de-Luz
     </option>
   
     <option value="64" >
       Meurtre de Lola Daviet
-    </option>
-  
-    <option value="68" selected="selected">
-      Gendarmerie et sécurité
     </option>
   
     <option value="4" >
@@ -204,6 +204,10 @@
   
     <option value="51" >
       Giorgia Meloni
+    </option>
+  
+    <option value="73" >
+      Séisme en Turquie et Syrie
     </option>
   
     <option value="81" >
@@ -340,6 +344,10 @@
   
     <option value="43" >
       FDO blessées, refus d'obtempérer, agressions
+    </option>
+  
+    <option value="68"  selected="selected" >
+      Gendarmerie et sécurité
     </option>
   
     <option value="33" >
@@ -531,15 +539,15 @@
       
     
       
-    <div class="tweet-container">
-      <blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-dnt="true">
+        <div class="tweet-fallback-container">
+          <div class="tweet-fallback">
             <strong>@angelique_ranc</strong><br><br>
               Visite du Groupement de Gendarmerie à Rosières avec le Colonel Goetz Nous avons échangé sur les actions et les ambitions, sur les enjeux mais également les besoins budgétaires. Merci à l'ensemble des gendarmes pour leur dévouement et leur engagement pour la population.<br><br>
             <a href="https://twitter.com/angelique_ranc/status/1567259701963902978">
               2022-09-06 23:13:25
             </a>
-        </blockquote>
-      </div>
+          </div>
+        </div>
       
     
       
@@ -19542,7 +19550,7 @@
             "opacity": {
               "condition": [
                 {
-                  "param": "param_133",
+                  "param": "param_3",
                   "value": 1
                 }
               ],
@@ -19564,7 +19572,7 @@
           "mark": {
             "type": "line"
           },
-          "name": "view_133",
+          "name": "view_3",
           "title": {
             "subtitle": "Nombre de tweets du topic rapport\u00e9 au nombre de tweets \u00e9mis le m\u00eame jour par le m\u00eame public.",
             "text": "Proportion d'attention accord\u00e9e au topic par chacun des publics au cours du temps"
@@ -19589,7 +19597,7 @@
             "color": "gray",
             "type": "rule"
           },
-          "name": "view_134"
+          "name": "view_4"
         }
       ],
       "width": 600
@@ -19667,7 +19675,7 @@
   "params": [
     {
       "bind": "legend",
-      "name": "param_133",
+      "name": "param_3",
       "select": {
         "fields": [
           "party"
@@ -19677,11 +19685,11 @@
       },
       "value": "m\u00e9dias",
       "views": [
-        "view_133"
+        "view_3"
       ]
     },
     {
-      "name": "param_134",
+      "name": "param_4",
       "select": {
         "fields": [
           "date:T"
@@ -19691,7 +19699,7 @@
         "type": "point"
       },
       "views": [
-        "view_134"
+        "view_4"
       ]
     }
   ]
